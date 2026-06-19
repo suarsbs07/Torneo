@@ -512,3 +512,95 @@ th{
   background:#16a34a;
   border-radius:20px;
 }
+@media (max-width: 768px) {
+  .panel {
+    margin: 20px auto;
+    width: 95%;
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .section-title {
+    text-align: center;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .section-title h2,
+  .section-title small {
+    text-align: center;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 18px;
+    padding: 18px;
+    border-radius: 20px;
+    background: #f8fafc;
+    border: 1px solid #dbe3ef;
+    text-align: center;
+  }
+
+  td {
+    display: none;
+    padding: 10px 0;
+    text-align: center;
+    border: none;
+  }
+
+  td[data-label="Jugador"],
+  td[data-label="Club"],
+  td[data-label="País"],
+  td[data-label="PTS"],
+  td[data-label="PJ"],
+  td[data-label="DG"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #64748b;
+  }
+
+  .player-cell,
+  .team-cell {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .clasificado {
+    background: #dcfce7;
+  }
+
+  .playoffs-grid,
+  .favoritos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .playoff-card,
+  .favorito-card {
+    width: 100%;
+    text-align: center;
+  }
+
+  .score-box {
+    justify-content: center;
+  }
+}
