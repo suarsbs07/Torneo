@@ -272,6 +272,9 @@ function renderPagina(modo) {
 
   const tabla = calcularTabla(data);
 
+  renderTablaGrupo(tabla, "A", "tablaGrupoA", modo);
+  renderTablaGrupo(tabla, "B", "tablaGrupoB", modo);
+
   tablaBox.innerHTML = "";
 
   if (tabla.length === 0) {
@@ -353,3 +356,57 @@ function renderPagina(modo) {
 
   renderPartidos(0);
 }
+
+function renderTablaGrupo(tabla, grupo, idTabla, modo) {
+  const box = document.getElementById(idTabla);
+  if (!box) return;
+
+  const equiposGrupo = tabla.filter(t => t.grupo === grupo);
+
+  box.innerHTML = "";
+
+  if (equiposGrupo.length === 0) {
+    box.innerHTML = `
+      <tr>
+        <td colspan="11">Todavía no hay equipos en el Grupo ${grupo}.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  equiposGrupo.forEach((t, i) => {
+    const clasificado = i < 2 ? "clasificado" : "";
+
+    box.innerHTML += `
+      <tr class="${clasificado}">
+        <td>
+          <span class="pos">${i + 1}</span>
+        </td>
+
+        <td>
+          <div class="player-cell">
+            <img src="${t.jugadorImg || ""}" onerror="this.style.display='none'">
+            ${nombreVisible(t.jugador, "Jugador")}
+          </div>
+        </td>
+
+        <td>
+          <div class="team-cell">
+            <img src="${t.equipoImg || ""}" onerror="this.style.display='none'">
+            ${nombreVisible(t.equipo, modo === "clubes" ? "Club por definir" : "País por definir")}
+          </div>
+        </td>
+
+        <td><strong>${t.pts}</strong></td>
+        <td>${t.pj}</td>
+        <td>${t.g}</td>
+        <td>${t.emp}</td>
+        <td>${t.p}</td>
+        <td>${t.gf}</td>
+        <td>${t.gc}</td>
+        <td>${t.dg}</td>
+      </tr>
+    `;
+  });
+}
+
