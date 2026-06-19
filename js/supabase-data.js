@@ -1,95 +1,88 @@
-async function cargarDesdeSupabase(modo) {
-  const { data: torneo, error: torneoError } = await supabaseClient
-    .from("torneos")
-    .select("*")
-    .eq("modo", modo)
-    .maybeSingle();
+const DATA_ORIGINAL = {
+  clubes: {
+    configuracion: { playoffsActivos: false },
 
-  if (torneoError || !torneo) {
-    console.error(torneoError);
-    alert("No se encontró el torneo en Supabase");
-    return;
-  }
+    equipos: [
+      { id:"c1", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"c2", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"c3", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"c4", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"A" },
 
-  const { data: equipos = [] } = await supabaseClient
-    .from("equipos")
-    .select("*")
-    .eq("torneo_id", torneo.id)
-    .order("codigo");
+      { id:"c5", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"c6", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"c7", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"c8", jugador:"", equipo:"", ratingEquipo:75, jugadorImg:"", equipoImg:"", grupo:"B" }
+    ],
 
-  const { data: jornadas = [] } = await supabaseClient
-    .from("jornadas")
-    .select("*")
-    .eq("torneo_id", torneo.id)
-    .order("orden");
+    jornadas: [
+      { nombre:"Jornada 1 - Grupo A", partidos:[{ local:"c1", visita:"c2", gl:null, gv:null },{ local:"c3", visita:"c4", gl:null, gv:null }]},
+      { nombre:"Jornada 1 - Grupo B", partidos:[{ local:"c5", visita:"c6", gl:null, gv:null },{ local:"c7", visita:"c8", gl:null, gv:null }]},
 
-  const { data: partidos = [] } = await supabaseClient
-    .from("partidos")
-    .select("*");
+      { nombre:"Jornada 2 - Grupo A", partidos:[{ local:"c1", visita:"c3", gl:null, gv:null },{ local:"c2", visita:"c4", gl:null, gv:null }]},
+      { nombre:"Jornada 2 - Grupo B", partidos:[{ local:"c5", visita:"c7", gl:null, gv:null },{ local:"c6", visita:"c8", gl:null, gv:null }]},
 
-  const { data: playoffs = [] } = await supabaseClient
-    .from("playoffs")
-    .select("*")
-    .eq("torneo_id", torneo.id)
-    .order("orden");
-
-  const dataConvertida = {
-    clubes: DATA_ORIGINAL.clubes,
-    paises: DATA_ORIGINAL.paises
-  };
-
-  dataConvertida[modo] = {
-    configuracion: {
-      playoffsActivos: torneo.playoffs_activos || false
-    },
-
-    equipos: equipos.map(e => ({
-      id: e.codigo,
-      jugador: e.jugador || "",
-      equipo: e.equipo || "",
-      ratingEquipo: e.rating_equipo || 75,
-      jugadorImg: e.jugador_img || "",
-      equipoImg: e.equipo_img || ""
-    })),
-
-    jornadas: jornadas.length > 0
-      ? jornadas.map(j => ({
-          nombre: j.nombre,
-          partidos: partidos
-            .filter(p => p.jornada_id === j.id)
-            .map(p => ({
-              local: p.local_codigo,
-              visita: p.visita_codigo,
-              gl: p.goles_local,
-              gv: p.goles_visita
-            }))
-        }))
-      : [
-          {
-            nombre: "Jornada 1",
-            partidos: []
-          }
-        ],
+      { nombre:"Jornada 3 - Grupo A", partidos:[{ local:"c1", visita:"c4", gl:null, gv:null },{ local:"c2", visita:"c3", gl:null, gv:null }]},
+      { nombre:"Jornada 3 - Grupo B", partidos:[{ local:"c5", visita:"c8", gl:null, gv:null },{ local:"c6", visita:"c7", gl:null, gv:null }]}
+    ],
 
     playoffs: {
-      octavos: [],
-      cuartos: [],
-      semis: [],
-      final: []
+      semis: [
+        { local:"1A", visita:"2B", gl:null, gv:null },
+        { local:"1B", visita:"2A", gl:null, gv:null }
+      ],
+      final: [
+        { local:null, visita:null, gl:null, gv:null }
+      ]
     }
-  };
+  },
 
-  playoffs.forEach(p => {
-    if (dataConvertida[modo].playoffs[p.ronda]) {
-      dataConvertida[modo].playoffs[p.ronda].push({
-        local: p.local_codigo,
-        visita: p.visita_codigo,
-        gl: p.goles_local,
-        gv: p.goles_visita
-      });
+  paises: {
+    configuracion: { playoffsActivos: false },
+
+    equipos: [
+      { id:"p1", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"p2", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"p3", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"A" },
+      { id:"p4", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"A" },
+
+      { id:"p5", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"p6", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"p7", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"B" },
+      { id:"p8", jugador:"", equipo:"", ratingEquipo:80, jugadorImg:"", equipoImg:"", grupo:"B" }
+    ],
+
+    jornadas: [
+      { nombre:"Jornada 1 - Grupo A", partidos:[{ local:"p1", visita:"p2", gl:null, gv:null },{ local:"p3", visita:"p4", gl:null, gv:null }]},
+      { nombre:"Jornada 1 - Grupo B", partidos:[{ local:"p5", visita:"p6", gl:null, gv:null },{ local:"p7", visita:"p8", gl:null, gv:null }]},
+
+      { nombre:"Jornada 2 - Grupo A", partidos:[{ local:"p1", visita:"p3", gl:null, gv:null },{ local:"p2", visita:"p4", gl:null, gv:null }]},
+      { nombre:"Jornada 2 - Grupo B", partidos:[{ local:"p5", visita:"p7", gl:null, gv:null },{ local:"p6", visita:"p8", gl:null, gv:null }]},
+
+      { nombre:"Jornada 3 - Grupo A", partidos:[{ local:"p1", visita:"p4", gl:null, gv:null },{ local:"p2", visita:"p3", gl:null, gv:null }]},
+      { nombre:"Jornada 3 - Grupo B", partidos:[{ local:"p5", visita:"p8", gl:null, gv:null },{ local:"p6", visita:"p7", gl:null, gv:null }]}
+    ],
+
+    playoffs: {
+      semis: [
+        { local:"1A", visita:"2B", gl:null, gv:null },
+        { local:"1B", visita:"2A", gl:null, gv:null }
+      ],
+      final: [
+        { local:null, visita:null, gl:null, gv:null }
+      ]
     }
-  });
+  }
+};
 
-  localStorage.setItem("torneoData", JSON.stringify(dataConvertida));
-  renderPagina(modo);
+function obtenerData(){
+  const guardado = localStorage.getItem("torneoData");
+  return guardado ? JSON.parse(guardado) : structuredClone(DATA_ORIGINAL);
+}
+
+function guardarData(data){
+  localStorage.setItem("torneoData", JSON.stringify(data));
+}
+
+function resetData(){
+  localStorage.removeItem("torneoData");
 }
