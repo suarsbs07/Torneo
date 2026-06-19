@@ -474,3 +474,41 @@ th{
 .final-card {
   border: 2px solid #facc15;
 }
+.favorito-card{
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.favorito-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.favorito-nombre{
+  font-weight:700;
+  color:#102033;
+}
+
+.favorito-prob{
+  font-weight:bold;
+  color:#16a34a;
+}
+
+.favorito-barra{
+  height:10px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.favorito-barra span{
+  display:block;
+  height:100%;
+  background:#16a34a;
+  border-radius:20px;
+}
