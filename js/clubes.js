@@ -1,1 +1,1 @@
-renderPagina('clubes');
+cargarDesdeSupabase("clubes");
