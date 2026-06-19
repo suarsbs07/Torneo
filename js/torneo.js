@@ -288,30 +288,30 @@ function renderTablaGrupo(tabla, grupo, idTabla, modo) {
 
     box.innerHTML += `
       <tr class="${clasificado}">
-        <td><span class="pos">${i + 1}</span></td>
+        <td data-label="#"><span class="pos">${i + 1}</span></td>
 
-        <td>
+        <td data-label="Jugador">
           <div class="player-cell">
             <img src="${t.jugadorImg || ""}" onerror="this.style.display='none'">
             ${nombreVisible(t.jugador, "Jugador")}
           </div>
         </td>
 
-        <td>
+        <td data-label="${modo === "clubes" ? "Club" : "País"}">
           <div class="team-cell">
             <img src="${t.equipoImg || ""}" onerror="this.style.display='none'">
             ${nombreVisible(t.equipo, modo === "clubes" ? "Club por definir" : "País por definir")}
           </div>
         </td>
 
-        <td><strong>${t.pts}</strong></td>
-        <td>${t.pj}</td>
-        <td>${t.g}</td>
-        <td>${t.emp}</td>
-        <td>${t.p}</td>
-        <td>${t.gf}</td>
-        <td>${t.gc}</td>
-        <td>${t.dg}</td>
+        <td data-label="PTS"><strong>${t.pts}</strong></td>
+        <td data-label="PJ">${t.pj}</td>
+        <td data-label="G">${t.g}</td>
+        <td data-label="E">${t.emp}</td>
+        <td data-label="P">${t.p}</td>
+        <td data-label="GF">${t.gf}</td>
+        <td data-label="GC">${t.gc}</td>
+        <td data-label="DG">${t.dg}</td>
       </tr>
     `;
   });
