@@ -1,5 +1,5 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{min-height:100vh;background:linear-gradient(160deg,#ecfdf5,#dbeafe,#fef3c7);color:#102033}
+body{min-height:100vh;background:linear-gradient(160deg,#ecfdf5,#7b9fca,#e6dcb3);color:#102033}
 .app{min-height:100vh;padding:18px 14px 28px;max-width:900px;margin:auto}
 .hero{text-align:center;padding:12px 4px 18px}
 .mini-label{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffffffcc;color:#047857;font-weight:bold;font-size:13px;margin-bottom:12px;box-shadow:0 8px 20px #0001}
@@ -26,7 +26,7 @@ body{min-height:100vh;background:linear-gradient(160deg,#ecfdf5,#dbeafe,#fef3c7)
 .mode-card span{font-size:36px}
 .mode-card h2{font-size:23px;margin-bottom:4px}
 .mode-card p{opacity:.9;font-size:14px}
-.clubes{background:linear-gradient(135deg,#2563eb,#7c3aed,#facc15)}
-.paises{background:linear-gradient(135deg,#16a34a,#facc15,#ef4444)}
+.clubes{background:linear-gradient(135deg,#25272b,#121015,#2c1fbe)}
+.paises{background:linear-gradient(135deg,#22d162,#7d7557,#e4ca22)}
 @media(min-width:760px){.cards{grid-template-columns:1fr 1fr}.carousel img{height:360px}.hero h1{font-size:54px}.premios-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:420px){.hero h1{font-size:31px}.hero p{font-size:14px}.carousel img{height:205px}.mode-card{min-height:118px;padding:18px}.mode-card span{font-size:34px}.section-head{display:block}.section-head p{text-align:left;max-width:none;margin-top:4px}}
