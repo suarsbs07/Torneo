@@ -3,31 +3,31 @@ async function cargarDesdeSupabase(modo) {
     .from("torneos")
     .select("*")
     .eq("modo", modo)
-    .single();
+    .maybeSingle();
 
-  if (torneoError) {
+  if (torneoError || !torneo) {
     console.error(torneoError);
     alert("No se encontró el torneo en Supabase");
     return;
   }
 
-  const { data: equipos } = await supabaseClient
+  const { data: equipos = [] } = await supabaseClient
     .from("equipos")
     .select("*")
     .eq("torneo_id", torneo.id)
     .order("codigo");
 
-  const { data: jornadas } = await supabaseClient
+  const { data: jornadas = [] } = await supabaseClient
     .from("jornadas")
     .select("*")
     .eq("torneo_id", torneo.id)
     .order("orden");
 
-  const { data: partidos } = await supabaseClient
+  const { data: partidos = [] } = await supabaseClient
     .from("partidos")
     .select("*");
 
-  const { data: playoffs } = await supabaseClient
+  const { data: playoffs = [] } = await supabaseClient
     .from("playoffs")
     .select("*")
     .eq("torneo_id", torneo.id)
@@ -40,7 +40,7 @@ async function cargarDesdeSupabase(modo) {
 
   dataConvertida[modo] = {
     configuracion: {
-      playoffsActivos: torneo.playoffs_activos
+      playoffsActivos: torneo.playoffs_activos || false
     },
 
     equipos: equipos.map(e => ({
@@ -52,17 +52,24 @@ async function cargarDesdeSupabase(modo) {
       equipoImg: e.equipo_img || ""
     })),
 
-    jornadas: jornadas.map(j => ({
-      nombre: j.nombre,
-      partidos: partidos
-        .filter(p => p.jornada_id === j.id)
-        .map(p => ({
-          local: p.local_codigo,
-          visita: p.visita_codigo,
-          gl: p.goles_local,
-          gv: p.goles_visita
+    jornadas: jornadas.length > 0
+      ? jornadas.map(j => ({
+          nombre: j.nombre,
+          partidos: partidos
+            .filter(p => p.jornada_id === j.id)
+            .map(p => ({
+              local: p.local_codigo,
+              visita: p.visita_codigo,
+              gl: p.goles_local,
+              gv: p.goles_visita
+            }))
         }))
-    })),
+      : [
+          {
+            nombre: "Jornada 1",
+            partidos: []
+          }
+        ],
 
     playoffs: {
       octavos: [],
@@ -73,15 +80,16 @@ async function cargarDesdeSupabase(modo) {
   };
 
   playoffs.forEach(p => {
-    dataConvertida[modo].playoffs[p.ronda].push({
-      local: p.local_codigo,
-      visita: p.visita_codigo,
-      gl: p.goles_local,
-      gv: p.goles_visita
-    });
+    if (dataConvertida[modo].playoffs[p.ronda]) {
+      dataConvertida[modo].playoffs[p.ronda].push({
+        local: p.local_codigo,
+        visita: p.visita_codigo,
+        gl: p.goles_local,
+        gv: p.goles_visita
+      });
+    }
   });
 
   localStorage.setItem("torneoData", JSON.stringify(dataConvertida));
-
   renderPagina(modo);
 }
