@@ -3,7 +3,7 @@
 body{
   min-height:100vh;
   color:#102033;
-  background:linear-gradient(160deg,#ecfdf5,#fef9c3,#fee2e2);
+  background:linear-gradient(160deg,#dfe3e1,#1ee353,#94a41b);
   overflow-x:hidden;
 }
 
@@ -12,8 +12,8 @@ body{
   padding:18px 14px 24px;
   border-bottom-left-radius:32px;
   border-bottom-right-radius:32px;
-  background:linear-gradient(135deg,#bbf7d0,#fef08a,#fecaca);
-  color:#14532d;
+  background:linear-gradient(135deg,#fbf3f3,#1ab439,#a2a50a);
+  color:#28302a;
 }
 
 .header a{
@@ -244,7 +244,7 @@ th{
   height:100%;
   border-radius:999px;
   transition:.4s;
-  background:linear-gradient(90deg,#16a34a,#facc15,#ef4444);
+  background:linear-gradient(90deg,#040605,#39dc78,#a7ce1b);
 }
 
 .playoffs{
