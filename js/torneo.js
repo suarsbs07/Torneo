@@ -67,32 +67,6 @@ function calcularTabla(data) {
     });
   });
 
-  const playoffsActivos = data.configuracion?.playoffsActivos === true;
-  const bonusPorRonda = {
-    octavos: 4,
-    cuartos: 8,
-    semis: 14,
-    final: 24
-  };
-
-  if (playoffsActivos && data.playoffs) {
-    Object.entries(data.playoffs).forEach(([ronda, partidos]) => {
-      partidos.forEach(m => {
-        if (!m.local || !m.visita || m.gl === null || m.gv === null || m.gl === "" || m.gv === "") return;
-
-        const local = fila(m.local);
-        const visita = fila(m.visita);
-        if (!local || !visita) return;
-
-        const gl = Number(m.gl);
-        const gv = Number(m.gv);
-
-        if (gl > gv) local.playoffBonus += bonusPorRonda[ronda] || 0;
-        if (gv > gl) visita.playoffBonus += bonusPorRonda[ronda] || 0;
-      });
-    });
-  }
-
   tabla.forEach(t => {
     t.dg = t.gf - t.gc;
   });
@@ -109,107 +83,47 @@ function calcularTabla(data) {
 function calcularProbabilidades(tabla) {
   if (tabla.length === 0) return [];
 
-  const maxPJ = Math.max(...tabla.map(t => t.pj), 1);
+  const total = tabla.length;
 
-  const scores = tabla.map(t => {
-    const rating = Number(t.ratingEquipo || 75);
-    const fuerzaEquipo = Math.max(1, (rating - 50) * 1.6);
-    const rendimiento = t.pj === 0 ? 0 : (t.pts / (t.pj * 3)) * 45;
-    const diferencia = Math.max(-10, t.dg) * 3;
-    const ataque = t.gf * 1.8;
-    const bonusPartidosPendientes = (maxPJ - t.pj) * 1.5;
-    const bonusPlayoffs = t.playoffBonus || 0;
+  return tabla.map((t, i) => ({
+    ...t,
+    prob: Math.max(5, Math.round(((total - i) / total) * 100))
+  }));
+}
 
-    return {
-      ...t,
-      scoreProb: Math.max(
-        5,
-        fuerzaEquipo +
-        rendimiento +
-        diferencia +
-        ataque +
-        bonusPartidosPendientes +
-        bonusPlayoffs
-      )
-    };
-  });
+function textoPlayoff(data, codigo, goles) {
+  if (!codigo) return "Por definir";
 
-  const total = scores.reduce((sum, t) => sum + t.scoreProb, 0);
+  const equipo = nombreEquipo(data, codigo);
+  const nombre = equipo
+    ? nombreVisible(equipo.equipo, codigo)
+    : codigo;
 
-  return scores
-    .map(t => ({
-      ...t,
-      prob: Math.round((t.scoreProb / total) * 100)
-    }))
-    .sort((a, b) => b.prob - a.prob);
+  if (goles === null || goles === undefined || goles === "") {
+    return nombre;
+  }
+
+  return `${nombre} (${goles})`;
 }
 
 function renderPlayoffs(data) {
-  const playoffsBox = document.getElementById("playoffs");
-  const panel = document.getElementById("playoffsPanel");
+  const semi1 = data.playoffs?.semis?.[0];
+  const semi2 = data.playoffs?.semis?.[1];
+  const final = data.playoffs?.final?.[0];
 
-  if (!playoffsBox || !panel) return;
-
-  const playoffsActivos = data.configuracion?.playoffsActivos === true;
-
-  if (!playoffsActivos) {
-    panel.style.display = "none";
-    return;
+  if (semi1) {
+    document.getElementById("semi1Local").textContent = textoPlayoff(data, semi1.local, semi1.gl);
+    document.getElementById("semi1Visita").textContent = textoPlayoff(data, semi1.visita, semi1.gv);
   }
 
-  panel.style.display = "block";
+  if (semi2) {
+    document.getElementById("semi2Local").textContent = textoPlayoff(data, semi2.local, semi2.gl);
+    document.getElementById("semi2Visita").textContent = textoPlayoff(data, semi2.visita, semi2.gv);
+  }
 
-  const nombresRonda = {
-    octavos: "Octavos",
-    cuartos: "Cuartos",
-    semis: "Semifinal",
-    final: "Final"
-  };
-
-  let hayDatos = false;
-  playoffsBox.innerHTML = "";
-
-  Object.entries(data.playoffs).forEach(([ronda, partidos]) => {
-    const partidosActivos = partidos.filter(m => m.local && m.visita);
-
-    if (partidosActivos.length === 0) return;
-
-    hayDatos = true;
-
-    let html = `<div class="playoff-round"><h3>${nombresRonda[ronda] || ronda}</h3>`;
-
-    partidosActivos.forEach(m => {
-      const local = nombreEquipo(data, m.local);
-      const visita = nombreEquipo(data, m.visita);
-      const score = `${m.gl ?? "-"} - ${m.gv ?? "-"}`;
-
-      html += `
-        <div class="playoff-match">
-          <div class="team">
-            <img src="${local?.equipoImg || ""}" onerror="this.style.display='none'">
-            ${nombreVisible(local?.equipo || "", "Por definir")}
-          </div>
-
-          <div class="score">${score}</div>
-
-          <div class="team">
-            <img src="${visita?.equipoImg || ""}" onerror="this.style.display='none'">
-            ${nombreVisible(visita?.equipo || "", "Por definir")}
-          </div>
-        </div>
-      `;
-    });
-
-    html += `</div>`;
-    playoffsBox.innerHTML += html;
-  });
-
-  if (!hayDatos) {
-    playoffsBox.innerHTML = `
-      <div class="empty-playoffs">
-        Playoffs activados, pero todavía no agregaste partidos.
-      </div>
-    `;
+  if (final) {
+    document.getElementById("finalLocal").textContent = textoPlayoff(data, final.local, final.gl);
+    document.getElementById("finalVisita").textContent = textoPlayoff(data, final.visita, final.gv);
   }
 }
 
@@ -288,9 +202,7 @@ function renderPagina(modo) {
   tabla.forEach((t, i) => {
     tablaBox.innerHTML += `
       <tr>
-        <td data-label="#">
-          <span class="pos">${i + 1}</span>
-        </td>
+        <td data-label="#"><span class="pos">${i + 1}</span></td>
 
         <td data-label="Jugador">
           <div class="player-cell">
@@ -306,10 +218,7 @@ function renderPagina(modo) {
           </div>
         </td>
 
-        <td data-label="PTS">
-          <strong>${t.pts}</strong>
-        </td>
-
+        <td data-label="PTS"><strong>${t.pts}</strong></td>
         <td data-label="PJ">${t.pj}</td>
         <td data-label="G">${t.g}</td>
         <td data-label="E">${t.emp}</td>
@@ -325,7 +234,6 @@ function renderPagina(modo) {
   renderPlayoffs(data);
 
   const probs = calcularProbabilidades(tabla);
-
   probBox.innerHTML = "";
 
   if (probs.length === 0) {
@@ -379,9 +287,7 @@ function renderTablaGrupo(tabla, grupo, idTabla, modo) {
 
     box.innerHTML += `
       <tr class="${clasificado}">
-        <td>
-          <span class="pos">${i + 1}</span>
-        </td>
+        <td><span class="pos">${i + 1}</span></td>
 
         <td>
           <div class="player-cell">
@@ -409,4 +315,3 @@ function renderTablaGrupo(tabla, grupo, idTabla, modo) {
     `;
   });
 }
-
