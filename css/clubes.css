@@ -12,7 +12,7 @@ body{
   padding:18px 14px 24px;
   border-bottom-left-radius:32px;
   border-bottom-right-radius:32px;
-  background:linear-gradient(135deg,#dbeafe,#c7d2fe,#fef3c7);
+  background:linear-gradient(135deg,#e2e4e8,#c7d2fe,#080852);
   color:#1e1b4b;
 }
 
@@ -244,7 +244,7 @@ th{
   height:100%;
   border-radius:999px;
   transition:.4s;
-  background:linear-gradient(90deg,#2563eb,#7c3aed,#f59e0b);
+  background:linear-gradient(90deg,#2563eb,#7c3aed,#2164bc);
 }
 
 .playoffs{
