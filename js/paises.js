@@ -1,1 +1,1 @@
-renderPagina('paises');
+cargarDesdeSupabase("paises");
