@@ -1,0 +1,19 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh;background:linear-gradient(160deg,#ecfeff,#eef2ff,#fff7ed);color:#102033}
+.admin{max-width:680px;margin:auto;padding:18px 15px 40px}
+header{text-align:center;margin-bottom:16px}
+header a{display:inline-block;margin-bottom:10px;color:#0f766e;text-decoration:none;font-weight:bold}
+header h1{font-size:33px;color:#064e3b}
+header p{font-size:14px;color:#64748b}
+.box{background:white;border-radius:24px;padding:17px;margin-bottom:15px;box-shadow:0 12px 30px #0f172a18}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px;color:#334155}
+select,input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:14px;font-size:15px;background:#f8fafc}
+.match-edit,.team-edit{display:grid;gap:8px;padding:12px;border:1px solid #e2e8f0;border-radius:18px;margin-bottom:12px;background:#f8fafc}
+.match-grid{display:grid;grid-template-columns:1fr 70px 70px 1fr;gap:8px;align-items:center}
+button{width:100%;border:0;border-radius:16px;padding:14px;margin-top:10px;background:#16a34a;color:white;font-weight:bold;font-size:15px}
+button.ghost{background:#e2e8f0;color:#334155}
+.note p,.small-text{font-size:13px;color:#64748b;margin:8px 0 12px;line-height:1.4}
+.check-row{display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:12px;margin-top:14px}
+.check-row input{width:auto}
+.team-edit h3{font-size:15px;color:#334155}
+.two-cols{display:grid;grid-template-columns:1fr 100px;gap:8px}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torneo de Países</title>
+  <link rel="stylesheet" href="css/paises.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="index.html">← Inicio</a>
+    <h1>Mundial Friends</h1>
+    <p>Tabla, resultados y probabilidades basadas en FIFA 26.</p>
+  </header>
+
+  <nav class="mobile-tabs">
+    <a href="#jornadasSection">Jornadas</a>
+    <a href="#tablaSection">Tabla</a>
+    <a href="#playoffsPanel">Playoffs</a>
+    <a href="#probabilidadesSection">Chances</a>
+  </nav>
+
+  <main class="layout">
+    <section class="panel" id="jornadasSection">
+      <div class="section-title">
+        <h2>Resultados por jornada</h2>
+        <small>Desliza para cambiar</small>
+      </div>
+      <div class="jornadas" id="jornadas"></div>
+      <div class="partidos" id="partidos"></div>
+    </section>
+
+    <section class="panel" id="tablaSection">
+      <div class="section-title">
+        <h2>Tabla de posiciones</h2>
+        <small>Scroll horizontal en móvil</small>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>País</th>
+              <th>PTS</th>
+              <th>PJ</th>
+              <th>G</th>
+              <th>E</th>
+              <th>P</th>
+              <th>GF</th>
+              <th>GC</th>
+              <th>DG</th>
+              <th>OVR</th>
+            </tr>
+          </thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="playoffsPanel">
+      <div class="section-title">
+        <h2>Eliminatorias</h2>
+        <small>Opcional</small>
+      </div>
+      <div class="playoffs" id="playoffs"></div>
+    </section>
+
+    <section class="panel" id="probabilidadesSection">
+      <div class="section-title">
+        <h2>Dashboard de probabilidades</h2>
+        <small>Equipo FIFA + resultados</small>
+      </div>
+      <div id="probabilidades" class="probabilidades"></div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/torneo.js"></script>
+  <script src="js/paises.js"></script>
+</body>
+</html>

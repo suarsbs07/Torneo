@@ -1,0 +1,265 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh;color:#102033}
+.header{text-align:center;padding:18px 14px 24px;border-bottom-left-radius:32px;border-bottom-right-radius:32px}
+.header a{display:inline-block;margin-bottom:12px;color:inherit;text-decoration:none;font-weight:bold}
+.header h1{font-size:27px;line-height:1;margin-bottom:7px}
+.header p{font-size:14px;opacity:.75}
+.layout{padding:12px;display:grid;gap:14px;max-width:1050px;margin:auto}
+.panel{background:#fffffff2;border-radius:22px;padding:14px;box-shadow:0 12px 30px #0f172a18;border:1px solid #ffffff}
+.section-title{display:block;margin-bottom:14px}
+.section-title h2{font-size:18px}
+.section-title small{display:block;font-size:11px;color:#64748b;text-align:left;margin-top:4px}
+.jornadas{display:flex;gap:9px;overflow-x:auto;padding-bottom:8px}
+.jornadas button{border:0;border-radius:999px;padding:10px 14px;color:white;font-weight:bold;white-space:nowrap}
+.jornadas button.active{transform:scale(1.04)}
+.partidos{display:grid;gap:10px;margin-top:12px}
+.match{border-radius:18px;padding:11px;background:#f8fafc;border:1px solid #e2e8f0;display:grid;grid-template-columns:1fr 58px 1fr;gap:8px;align-items:center}
+.team{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:bold}
+.team:last-child{justify-content:flex-end;text-align:right}
+.team img{width:28px;height:28px;border-radius:50%;object-fit:cover;background:#e2e8f0}
+.score{padding:8px 8px;border-radius:12px;color:white;font-weight:bold;min-width:54px;text-align:center}
+.table-wrap{overflow-x:auto;border-radius:18px;border:1px solid #e2e8f0}
+table{width:100%;min-width:920px;border-collapse:collapse;background:white}
+th,td{padding:10px 9px;text-align:center;border-bottom:1px solid #e2e8f0;font-size:12px}
+th{font-size:12px;color:#475569;background:#f8fafc}
+.player-cell,.team-cell{display:flex;align-items:center;gap:8px;text-align:left;font-weight:bold}
+.player-cell img,.team-cell img{width:32px;height:32px;border-radius:50%;object-fit:cover;background:#e2e8f0}
+.pos{font-weight:bold;border-radius:999px;padding:5px 8px;color:white}
+.probabilidades{display:grid;gap:13px}
+.prob-card{display:grid;gap:7px}
+.prob-top{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.prob-name{font-weight:bold}
+.bar{height:13px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px;transition:.4s}
+.playoffs{display:grid;gap:12px}
+.playoff-round{border:1px solid #e2e8f0;border-radius:18px;background:#f8fafc;padding:12px}
+.playoff-round h3{font-size:16px;margin-bottom:10px;color:#334155}
+.playoff-match{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #e2e8f0}
+.playoff-match:first-of-type{border-top:0}
+.empty-playoffs{background:#f8fafc;border:1px dashed #cbd5e1;color:#64748b;border-radius:18px;padding:15px;font-size:14px;line-height:1.4}
+@media(min-width:850px){.layout{grid-template-columns:1fr 1fr}.panel:nth-child(2),.panel:nth-child(3),.panel:nth-child(4){grid-column:1/3}.section-title{display:flex;justify-content:space-between;align-items:end}.section-title small{text-align:right}}
+
+body{background:linear-gradient(160deg,#eef2ff,#dbeafe,#fff7ed)}
+.header{background:linear-gradient(135deg,#dbeafe,#c7d2fe,#fef3c7);color:#1e1b4b}
+.jornadas button{background:#2563eb}.jornadas button.active{background:#f59e0b;color:#111827}
+.score,.pos{background:#2563eb}.bar span{background:linear-gradient(90deg,#2563eb,#7c3aed,#f59e0b)}
+
+.player-cell:has(img[style*="none"]), .team-cell:has(img[style*="none"]){
+  color:#64748b;
+}
+
+/* ===== AJUSTE REAL PARA MÓVIL ===== */
+.mobile-tabs{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 12px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(226,232,240,.9);
+}
+
+.mobile-tabs a{
+  flex:0 0 auto;
+  text-decoration:none;
+  color:#334155;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  padding:9px 13px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.mobile-tabs a:active{
+  transform:scale(.96);
+}
+
+@media(max-width:640px){
+  body{
+    overflow-x:hidden;
+  }
+
+  .header{
+    padding:18px 14px 22px;
+    border-bottom-left-radius:26px;
+    border-bottom-right-radius:26px;
+  }
+
+  .header h1{
+    font-size:26px;
+  }
+
+  .header p{
+    font-size:13px;
+    max-width:310px;
+    margin:auto;
+  }
+
+  .layout{
+    padding:12px 10px 90px;
+    gap:14px;
+  }
+
+  .panel{
+    padding:13px;
+    border-radius:22px;
+  }
+
+  .section-title h2{
+    font-size:17px;
+  }
+
+  .jornadas{
+    gap:8px;
+    margin-left:-2px;
+    padding-bottom:10px;
+  }
+
+  .jornadas button{
+    padding:9px 13px;
+    font-size:12px;
+  }
+
+  .partidos{
+    gap:9px;
+  }
+
+  .match{
+    grid-template-columns:1fr 54px 1fr;
+    gap:7px;
+    padding:10px;
+    border-radius:16px;
+  }
+
+  .team{
+    font-size:11px;
+    gap:6px;
+    line-height:1.2;
+    min-width:0;
+  }
+
+  .team img{
+    width:25px;
+    height:25px;
+    flex:0 0 25px;
+  }
+
+  .score{
+    min-width:50px;
+    padding:7px 6px;
+    font-size:12px;
+  }
+
+  .table-wrap{
+    border-radius:16px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    position:relative;
+  }
+
+  .table-wrap::after{
+    content:"Desliza →";
+    position:absolute;
+    right:10px;
+    top:8px;
+    font-size:11px;
+    background:#ffffffee;
+    color:#64748b;
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    pointer-events:none;
+  }
+
+  table{
+    min-width:780px;
+  }
+
+  th,td{
+    padding:9px 7px;
+    font-size:11px;
+  }
+
+  th{
+    font-size:10px;
+  }
+
+  .player-cell,
+  .team-cell{
+    gap:6px;
+    font-size:11px;
+    min-width:120px;
+  }
+
+  .player-cell img,
+  .team-cell img{
+    width:28px;
+    height:28px;
+  }
+
+  .pos{
+    padding:4px 7px;
+    font-size:11px;
+  }
+
+  .probabilidades{
+    gap:11px;
+  }
+
+  .prob-card{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:16px;
+    padding:11px;
+  }
+
+  .prob-top{
+    font-size:12px;
+  }
+
+  .bar{
+    height:11px;
+  }
+
+  .playoff-round{
+    padding:11px;
+    border-radius:16px;
+  }
+
+  .playoff-match{
+    grid-template-columns:1fr 54px 1fr;
+    gap:7px;
+  }
+}
+
+@media(max-width:380px){
+  .layout{
+    padding-left:8px;
+    padding-right:8px;
+  }
+
+  .panel{
+    padding:11px;
+  }
+
+  .match{
+    grid-template-columns:1fr 48px 1fr;
+  }
+
+  .score{
+    min-width:46px;
+    font-size:11px;
+  }
+
+  .team{
+    font-size:10.5px;
+  }
+
+  table{
+    min-width:740px;
+  }
+}

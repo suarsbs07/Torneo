@@ -1,0 +1,1 @@
+renderPagina('paises');

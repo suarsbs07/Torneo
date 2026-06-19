@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin Torneo</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <main class="admin">
+    <header>
+      <a href="index.html">← Volver</a>
+      <h1>Panel Admin</h1>
+      <p>Este panel ya no aparece en el inicio. Entra directo por admin.html.</p>
+    </header>
+
+    <section class="box">
+      <label>Modo de torneo</label>
+      <select id="modo">
+        <option value="clubes">Clubes</option>
+        <option value="paises">Países</option>
+      </select>
+
+      <label class="check-row">
+        <input type="checkbox" id="playoffsActivos">
+        Activar playoffs
+      </label>
+
+      <label>Jornada</label>
+      <select id="jornada"></select>
+    </section>
+
+    <section class="box">
+      <h2>Participantes y equipos FIFA 26</h2>
+      <p class="small-text">El OVR afecta las probabilidades. Puedes ponerlo manualmente.</p>
+      <div id="editorEquipos"></div>
+      <button id="guardarEquipos">Guardar participantes</button>
+    </section>
+
+    <section class="box">
+      <h2>Editar partidos de tabla</h2>
+      <div id="editorPartidos"></div>
+      <button id="guardar">Guardar resultados</button>
+      <button id="reset" class="ghost">Restaurar datos</button>
+    </section>
+
+    <section class="box">
+      <h2>Editar eliminatorias</h2>
+      <p class="small-text">Si el playoff está desactivado, tus amigos no verán esta sección.</p>
+      <label>Ronda</label>
+      <select id="ronda">
+        <option value="octavos">Octavos</option>
+        <option value="cuartos">Cuartos</option>
+        <option value="semis">Semis</option>
+        <option value="final">Final</option>
+      </select>
+      <div id="editorPlayoffs"></div>
+      <button id="guardarPlayoffs">Guardar eliminatorias</button>
+    </section>
+
+    <section class="box note">
+      <h2>Nota</h2>
+      <p>Por ahora guarda en este navegador. Con Supabase se guardará online y podrás editar desde tu móvil para todos.</p>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
