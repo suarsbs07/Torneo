@@ -431,3 +431,46 @@ th{
   background: #16a34a;
   color: white;
 }
+.playoffs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.playoff-card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.playoff-card h3 {
+  margin-bottom: 10px;
+  color: #102033;
+}
+
+.playoff-card p {
+  margin-bottom: 15px;
+  color: #64748b;
+}
+
+.score-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.score-box span {
+  background: #f1f5f9;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.final-card {
+  border: 2px solid #facc15;
+}
