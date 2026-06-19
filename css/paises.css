@@ -423,3 +423,11 @@ th{
     text-align:center;
   }
 }
+.clasificado {
+  background: #dcfce7;
+}
+
+.clasificado .pos {
+  background: #16a34a;
+  color: white;
+}
