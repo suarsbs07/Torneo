@@ -234,6 +234,7 @@ function renderPagina(modo) {
   renderPlayoffs(data);
 
   const probs = calcularProbabilidades(tabla);
+  renderFavoritos(probs);
   probBox.innerHTML = "";
 
   if (probs.length === 0) {
@@ -312,6 +313,47 @@ function renderTablaGrupo(tabla, grupo, idTabla, modo) {
         <td>${t.gc}</td>
         <td>${t.dg}</td>
       </tr>
+    `;
+  });
+}
+
+function renderFavoritos(lista) {
+  const box = document.getElementById("favoritosContainer");
+  if (!box) return;
+
+  box.innerHTML = "";
+
+  const top5 = [...lista]
+    .sort((a,b) => b.prob - a.prob)
+    .slice(0,5);
+
+  top5.forEach((t, i) => {
+
+    let emoji = "⭐";
+
+    if(i === 0) emoji = "🥇";
+    if(i === 1) emoji = "🥈";
+    if(i === 2) emoji = "🥉";
+
+    box.innerHTML += `
+      <div class="favorito-card">
+
+        <div class="favorito-top">
+          <span class="favorito-nombre">
+            ${emoji}
+            ${nombreVisible(t.equipo, "Por definir")}
+          </span>
+
+          <span class="favorito-prob">
+            ${t.prob}%
+          </span>
+        </div>
+
+        <div class="favorito-barra">
+          <span style="width:${t.prob}%"></span>
+        </div>
+
+      </div>
     `;
   });
 }
